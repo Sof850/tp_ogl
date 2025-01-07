@@ -12,8 +12,7 @@ pipeline {
             steps {
                 script {
                     echo 'Execution des tests...'
-                    sh 'chmod +x gradle'
-                    sh 'gradle test'
+                    ./gradlew test
                 }
             }
             post {
