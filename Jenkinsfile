@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        MAVEN_REPO_USERNAME = "myMavenRepo"
-        MAVEN_REPO_PASSWORD = "azerty"
+        MAVEN_REPO_USERNAME = 'myMavenRepo'
+        MAVEN_REPO_PASSWORD = 'azerty'
     }
 
     stages {
