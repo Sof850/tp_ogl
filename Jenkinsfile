@@ -2,17 +2,12 @@ pipeline {
     agent any
 
     stages {
-        stage('test') {
+        stage('build') {
             steps {
                 script {
                     echo 'Execution des tests...'
                     sh 'chmod +x gradle'
-                    sh 'gradle test'
-                }
-            }
-            post {
-                always {
-                    cucumber '**/reports/*.json'
+                    sh 'gradle build'
                 }
             }
         }
