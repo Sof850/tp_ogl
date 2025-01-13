@@ -12,7 +12,11 @@ pipeline {
 
                     junit '**/build/test-results/**/*.xml'
 
-                    bat 'gradlew cucumberReport'
+                }
+            }
+            post {
+                always {
+                    cucumber '**/reports/*.json'
                 }
             }
         }
