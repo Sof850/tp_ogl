@@ -54,12 +54,50 @@ pipeline {
             }
         }
 
-        stage('deploy') {
+        stage('Deploy') {
             steps {
                  script {
                     echo 'Deploiement de lapplication...'
                     bat 'gradlew publish'
                  }
+            }
+        }
+
+        stage('notifyMail') {
+            steps {
+                script {
+                    currentBuild.result = currentBuild.result ?: 'SUCCESS'
+                    if (currentBuild.result == 'SUCCESS') {
+                        echo 'Envoi de notifications de succes...'
+                        mail to: 'ks_chabi@gmail.com',
+                             subject: "Succes de la construction : ",
+                             body: ":rocket: *Deploiement termine avec succes!* :tada:"
+                    }
+                    else {
+                        echo 'Envoi de notifications d’échec...'
+                        mail to: 'ks_chabi@gmail.com',
+                             subject: "Echec de la construction : ",
+                             body: "La construction a echoue. Consultez les journaux pour plus de details."
+                    }
+                }
+            }
+        }
+
+        stage('notifySlack') {
+            steps {
+                script {
+                    if (currentBuild.result == 'SUCCESS') {
+                        slackSend channel: '#tp-ogl',
+                        color: 'good',
+                        message: ':rocket: *Deploiement termine avec succes!* :tada:'
+                    }
+                    else {
+                        slackSend channel: '#tp-ogl',
+                        color: 'bad',
+                        message: ':sob: *Deploiement echoue...* :angry:'
+                    }
+                }
+
             }
         }
 
