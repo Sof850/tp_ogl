@@ -69,7 +69,7 @@ pipeline {
                     currentBuild.result = currentBuild.result ?: 'SUCCESS'
                     if (currentBuild.result == 'SUCCESS') {
                         echo 'Envoi de notifications de succes...'
-                        mail to: 'ks_chabi@gmail.com',
+                        mail to: 'ks_chabi@esi.dz',
                              subject: "Succes de la construction : ",
                              body: ":rocket: *Deploiement termine avec succes!* :tada:"
                         slackSend channel: '#tp-ogl',
@@ -78,11 +78,11 @@ pipeline {
                     }
                     else {
                         echo 'Envoi de notifications d’échec...'
-                        mail to: 'ks_chabi@gmail.com',
+                        mail to: 'ks_chabi@esi.dz',
                              subject: "Echec de la construction : ",
                              body: "La construction a echoue. Consultez les journaux pour plus de details."
                         slackSend channel: '#tp-ogl',
-                            color: 'bad',
+                            color: 'danger',
                             message: ':sob: *Deploiement echoue...* :angry:'
                     }
                 }
