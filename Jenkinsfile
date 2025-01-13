@@ -2,7 +2,7 @@ pipeline {
     agent any
     tools {
         jdk 'Java 17'
-        gradle 'Gradle_latest'
+        gradle 'Gradle_Latest'
     }
     stages {
         stage('Build') {
