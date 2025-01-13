@@ -1,28 +1,37 @@
 pipeline {
     agent any
-
+    tools {
+        jdk 'Java 17'
+        gradle 'Gradle_latest'
+    }
     stages {
-        stage('build') {
+        stage('Build') {
             steps {
-                script {
-                    echo 'Execution des tests...'
-                    sh 'chmod +x gradle'
-                    sh 'gradle build'
-                }
+                bat 'gradlew clean build'
             }
         }
-
-
-
+        stage('Test') {
+            steps {
+                bat 'gradlew test'
+            }
+        }
+        stage('Package') {
+            steps {
+                // Package the application
+                bat 'gradlew assemble'
+            }
+        }
+    }
     post {
         always {
-            echo 'Pipeline termine.'
+            // Archive the build artifacts
+            archiveArtifacts artifacts: '**/build/libs/*.jar', fingerprint: true
         }
         success {
-            echo 'Pipeline complete avec succes.'
+            echo 'Build and tests completed successfully!'
         }
         failure {
-            echo 'Le pipeline a echoue.'
+            echo 'Build or tests failed. Check the logs!'
         }
     }
 }
