@@ -10,7 +10,7 @@ pipeline {
                 script {
                     bat 'gradlew clean test'
 
-                    junit '**/build/test-logs/**/*.xml'
+                    junit '**/build/test-results/**/*.xml'
 
                     bat 'gradlew cucumberReport'
                 }
