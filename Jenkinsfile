@@ -2,36 +2,58 @@ pipeline {
     agent any
     tools {
         jdk 'Java 17'
-        gradle 'Gradle_Latest'
+        gradle 'Gradle_latest'
     }
     stages {
-        stage('Build') {
-            steps {
-                bat 'gradlew clean build'
-            }
-        }
         stage('Test') {
             steps {
-                bat 'gradlew test'
+                script {
+                    bat 'gradlew clean test'
+
+                    junit '**/build/test-logs/**/*.xml'
+
+                    bat 'gradlew cucumberReport'
+                }
             }
         }
-        stage('Package') {
+
+        stage('Code Analysis') {
             steps {
-                // Package the application
-                bat 'gradlew assemble'
+                script {
+                    withSonarQubeEnv('sonar') {
+                        bat 'gradlew sonarqube'
+                    }
+                }
             }
         }
+
+        stage('Code Quality') {
+            steps {
+                script {
+                    def qualityGate = waitForQualityGate()
+                    if (qualityGate.status != 'OK') {
+                        error "Quality Gate failed, stopping the pipeline."
+                    }
+                }
+            }
+        }
+
+        stage('Build') {
+            steps {
+                script {
+                    bat 'gradlew clean build'
+
+                    bat 'gradlew javadoc'
+
+                    archiveArtifacts artifacts: '**/build/libs/*.jar, **/build/docs/**/*', fingerprint: true
+                }
+            }
+        }
+
     }
     post {
         always {
-            // Archive the build artifacts
-            archiveArtifacts artifacts: '**/build/libs/*.jar', fingerprint: true
-        }
-        success {
-            echo 'Build and tests completed successfully!'
-        }
-        failure {
-            echo 'Build or tests failed. Check the logs!'
+            echo "Pipeline completed."
         }
     }
 }
