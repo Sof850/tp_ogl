@@ -54,6 +54,15 @@ pipeline {
             }
         }
 
+        stage('deploy') {
+            steps {
+                 script {
+                    echo 'Deploiement de lapplication...'
+                    bat 'gradlew publish'
+                 }
+            }
+        }
+
     }
     post {
         always {
