@@ -70,20 +70,20 @@ pipeline {
                     if (currentBuild.result == 'SUCCESS') {
                         echo 'Envoi de notifications de succes...'
                         mail to: 'ks_chabi@esi.dz',
-                             subject: "Succes de la construction : ",
-                             body: "Deploiement termine avec succes!*"
+                             subject: "Successful Deployment: ",
+                             body: "Successful deployment!"
                         slackSend channel: '#tp-ogl',
                             color: 'good',
-                            message: ':rocket: *Deploiement termine avec succes!* :tada:'
+                            message: ':rocket: *Successful deployment!* :tada:'
                     }
                     else {
                         echo 'Envoi de notifications d’échec...'
                         mail to: 'ks_chabi@esi.dz',
-                             subject: "Echec de la construction : ",
-                             body: "La construction a echoue. Consultez les journaux pour plus de details."
+                             subject: "Error in building : ",
+                             body: "Build error, please check logs."
                         slackSend channel: '#tp-ogl',
                             color: 'danger',
-                            message: ':sob: *Deploiement echoue...* :angry:'
+                            message: ':sob: *Unsuccessful deployment...* :angry:'
                     }
                 }
             }
