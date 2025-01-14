@@ -89,6 +89,14 @@ pipeline {
             }
         }
 
+        stage('notifySlack') {
+                    steps {
+                        slackSend channel: '#tp-ogl',
+                            color: 'good',
+                            message: ':rocket: *Successful deployment!* :tada:'
+                    }
+                }
+
 
 
     }
