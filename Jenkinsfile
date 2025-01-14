@@ -71,7 +71,7 @@ pipeline {
                         echo 'Envoi de notifications de succes...'
                         mail to: 'ks_chabi@esi.dz',
                              subject: "Succes de la construction : ",
-                             body: ":rocket: *Deploiement termine avec succes!* :tada:"
+                             body: "Deploiement termine avec succes!*"
                         slackSend channel: '#tp-ogl',
                             color: 'good',
                             message: ':rocket: *Deploiement termine avec succes!* :tada:'
