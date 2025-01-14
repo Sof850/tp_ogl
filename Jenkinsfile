@@ -62,7 +62,6 @@ pipeline {
                  }
             }
         }
-
         stage('Notification') {
             steps {
                 script {
